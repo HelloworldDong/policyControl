@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" style="background: url('/images/background-3.png') no-repeat center center fixed">
+	<head>
+		<meta charset="utf-8">
+		<title>Page couldn't be found.</title>
+		<link rel="stylesheet" media="screen" href="/stylesheets/style.css">
+		
+		<script language="JavaScript">
+			function dosearch() {
+			var sf=document.searchform;
+			var submitto = sf.sengine.value + escape(sf.searchterms.value);
+			window.location.href = submitto;
+			return false;
+			}
+		</script>
+	</head>
+	<body>
+		
+		<div class="header">
+			<img src="/images/LOGO.png" />
+		</div>
+		
+		<p class="error">404</p>
+		
+		<div class="content">
+			<h2>找不到页面</h2>
+			
+				<form name="searchform" onSubmit="return dosearch();">
+					<input type="hidden" name="sengine" value="http://www.baidu.com/s?&wd=" />
+					<input type="text" name="searchterms" class="inputform">
+					<input type="submit" name="SearchSubmit" value="Search" class="button"> 
+				</form>
+				
+			</p>
+				
+		
+		</div>
+		
+	</body>
+</html>
