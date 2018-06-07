@@ -62,10 +62,10 @@
 + example:
   + req
     + Content-Type: application/json
-    + body: {"name": "level_policy1", "rif":{ "a.level" : { "gt" : 50} }, "rthen":{ "b.level" : 100 } }
+    + body: {"name": "level_policy1", "rif":{ "or":["a.level" : { "gt" : 50} }], "rthen":[{ "b.level" : 100 }] }
   + res
     + statusCode: 201
-    + response: {"id":1, "name": "level_policy1", "rif":{ "a.level" : { "gt" : 50} }, "rthen":{ "b.level" : 100 } }
+    + response: {"id":1, "name": "level_policy1", "rif":{ "or":["a.level" : { "gt" : 50} }], "rthen":[{ "b.level" : 100 }] }
   + errRes
     + statusCode: >=400
 
@@ -99,7 +99,7 @@
   + content-type: json
   + data: {rule}
     + root: true
-    + id: true
+    + id: false
 + res:
   + content-type: json
   + data: {rule}
@@ -107,10 +107,10 @@
 + example:
   + req
     + Content-Type: application/json
-    + body: {"name": "level_policy1", "rif":{ "a.level" : { "gt" : 50} }, "rthen":{ "b.level" : 100 } }
+    + body: {"name": "level_policy1", "rif":{ "or":["a.level" : { "gt" : 50} }], "rthen":[{ "b.level" : 100 }] }
   + res
     + statusCode: 200
-    + response:{"id":1, "name": "level_policy1", "rif":{ "a.level" : { "gt" : 50} }, "rthen":{ "b.level" : 100 } }
+    + response:{"id":1, "name": "level_policy1", "rif":{ "or":["a.level" : { "gt" : 50} }], "rthen":[{ "b.level" : 100 }]  }
   + errRes
     + statusCode: >=400    
 
@@ -121,8 +121,8 @@
 + description: 获取 rule
 + path: /api/rules?name=_&limit=_ &offset=_
   + name为空时默认查询所有，name不为空查询给定值。
-  + limit: 每页最多多少条数据
-  + offset: 数据偏移。从第几条数据开始查询
+  + limit: 每页最多多少条数据。不给值采用默认值
+  + offset: 数据偏移。从第几条数据开始查询。不给值默认偏移为0
 + verb: GET
 + res:
   + content-type: jsonArray
@@ -133,14 +133,14 @@
   + url:/api/rules?name=policy&limit=20 &offset=1, method="GET"
   + res
     + statusCode: 200
-    + response: [{"id":1, "name": "level_policy1", "rif":{ "a.level" : { "gt" : 50} }, "rthen":{ "b.level" : 100 } },{...}]
+    + response: [{"id":1, "name": "level_policy1", "rif":{ "or":["a.level" : { "gt" : 50} }], "rthen":[{ "b.level" : 100 }]  },{...}]
   + errRes
     + statusCode: >=400    
 
 ## 获取rule总条数
 
 + description: 获取 rule总条数
-+ path: /api/rules?name=_
++ path: /api/rules/count?name=_
   + name为空时默认查询所有，name不为空查询给定值。
 + verb: GET
 + res:
@@ -170,6 +170,6 @@
   + url:/api/rules/1, method="GET"
   + res
     + statusCode: 200
-    + response: {"id":1, "name": "level_policy1", "rif":{ "a.level" : { "gt" : 50} }, "rthen":{ "b.level" : 100 } }
+    + response: {"id":1, "name": "level_policy1", "rif":{ "or":["a.level" : { "gt" : 50} }], "rthen":[{ "b.level" : 100 }] }
   + errRes
     + statusCode: >=400    
