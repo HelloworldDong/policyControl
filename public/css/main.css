@@ -1,0 +1,279 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: "Microsoft YaHei";
+  background-color : rgba(246, 247, 248, 0.927);
+}
+.modal-body{
+    padding-bottom: 0;
+}
+.head{
+    width: 100%;
+    height: 60px;
+    font-size: 26px;
+    background-color:rgb(76,90,107);
+    color:white;
+}
+.head .icon-diary{
+    margin-left: 16px;
+    margin-top: 4px;
+    font-size: 28px;
+
+}
+.head span:first-child{
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    background-color:rgb(63,77,92);
+    display:inline-block;
+}
+.head span:last-child{
+    line-height: 60px;
+    margin-left: 20px;
+}
+.body{
+    width: 100%;
+}
+.body .body-head{
+   position: relative;
+   padding: 0;
+}
+.body #search_name{
+    height: 30px;
+    width: 298px;
+}
+.body .icon-search{
+  position: absolute;
+  left: 280px;
+  top: 8px;
+  color: rgb(187, 188, 189);
+  font-size: 16px;
+}
+.btn-blue{
+   float: right;
+    width: 67px;
+    height: 30px;
+    cursor: pointer;
+    color: #fff;
+    background-color: rgb(80,186,249);
+    line-height: 30px;
+    text-align: center;
+    border-radius: 5px;
+  }
+  .btn-gray{
+    float: left;
+     width: 65px;
+     height: 28px;
+     cursor: pointer;
+     color:  #808080;
+     background-color: #fff;
+     line-height: 28px;
+     text-align: center;
+     border-radius: 5px;
+     border:1px solid #808080;
+   }
+.body div{
+    margin:0;
+    margin:20px;
+    padding-bottom:10px;
+}
+.body table{
+    width: 100%;
+    margin: 0;
+    
+}
+.well{
+    background-color:#fff;
+    padding-top: 0;
+}
+table thead{
+    background-color:#fff;
+}
+thead tr{
+    background:white;
+    height:48px;
+    font-size:14px;
+}
+thead th{
+    border-top:1px solid #ddd;
+    border-bottom:1px solid #ddd;
+}
+.modal-header{
+    text-align: center;
+   color: rgb(152,152,152); 
+    font-size:14px;
+}
+.color-fff{
+    background-color:#fff;
+}
+.fright{
+    float: right;
+}
+.mleft{
+    margin-left: 6px;
+}
+.mleft-10{
+    margin-left: 10px;
+}
+.modal-header h3{
+    font-weight: 350;
+    font-size: 20px;
+}
+.modal-body{
+    position: relative
+}
+.modal-body .add-tip{
+    display: none;
+    position: absolute;
+    color: red;
+    font-size: 12px;
+    top:50px;
+    left: 113px;
+}
+.modal-body label{
+    line-height: 33px;
+}
+#EditModal .body-title{
+    height: 40px;
+    line-height: 40px;
+    
+    color:rgb(106,194,250);
+    border-bottom: 1px solid rgb(238,238,238);
+}
+#EditModal .modal-body{
+   padding-top: 0;
+}
+#EditModal .or-and{
+    line-height: 40px;
+    color:black;
+    font-size: 13px;
+ }
+ #EditModal .edit-add{
+   cursor: pointer;
+   display:block;
+   float: right;
+   font-size: 34px;
+   color:rgb(136,201,249);
+   margin-bottom: 18px;
+ }
+ .btop{
+     border-top: 1px solid rgb(238,238,238);
+ }
+ .curp{
+    cursor: pointer;
+}
+ /* #condions table tr{
+     border: none !important;
+ } */
+ #EditModal .icon-trash,#list .icon-trash{
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 0px;
+    color: rgb(235,81,89);
+}
+#list .icon-trash{
+    margin: 0;
+}
+#list .icon-pencil-square-o{
+    color: #4A5064;
+}
+#list tbody{
+    color: #4A5064;
+}
+#list tbody .list-edit{
+    cursor: pointer;
+}
+#list tbody .list-delete{
+    cursor: pointer;
+    color:rgb(235,81,89);
+    margin-left: 10px;
+}
+#list tbody tr td:last-child span{
+    position: relative;
+}
+#list tbody tr td:last-child span:last-child{
+    margin-left: 30px;
+}
+#list tbody tr td span a{
+    position: absolute;
+    top: 2px;
+}
+#DeleteModal div div {
+    margin: 0 auto;
+}
+#DeleteModal .icon-close-circle{
+    color:rgb(235,81,89);
+    font-size: 40px;
+}
+#DeleteModal div div:first-child {
+   margin-top: 20px;
+   width:40px;
+   
+}
+#DeleteModal div div:nth-child(2) {
+    margin-top: 30px;
+    width:112px;
+    color: #808080;
+    font-size: 16px;
+ }
+ #DeleteModal div div:last-child{
+    width:150px;
+ }
+#well-top{
+     margin-bottom: 0;
+    border-bottom:0;
+     
+ }
+ #well-bottom{
+    margin-top: 0;
+    border-top:0;
+    padding-bottom: 0;
+    padding-top: 20px;
+    /* border-top:0;
+    border:0; */
+    
+ } 
+#well-bottom #strategic_foot>span{
+    display: inline-block;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgb(187,188,189);
+    text-align: center;
+    border-radius: 3px;
+    margin-left: 4px;
+    color:rgb(185,186,187);
+    position: relative;
+}
+#well-bottom #strategic_foot>span:nth-child(3){
+    width: 30px;
+    color:#fff;
+    background-color: rgb(70, 173, 247);
+    
+}
+#well-bottom #strategic_foot>span:nth-child(4){
+    width: 30px;
+    border: none;
+    color:rgb(138,139,140);
+    margin-left: 0;
+    
+}
+#well-bottom  span i{
+  position: absolute;
+  left: 3px;
+  top: 2px;
+}
+#well-bottom  span span{
+    position: absolute;
+    left:12px;
+    top: -3px;
+  }
+  #well-bottom  #strategic_foot>span:nth-child(4) span{
+    left:0px;
+    top: -5px;
+  }

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>策略管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="../public/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="../public/css/main.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="../public/css/sr-icons/sr-icons.css" />
+</head>
+
+<body>
+    <div class="head">
+        <span>
+            <i class="icon-diary"></i>
+        </span>
+        <span>
+            策略管理器
+        </span>
+    </div>
+    <div class="body">
+        <div class="body-head">
+            <input id="search_name" placeholder="   搜索策略名称">
+            </input>
+            <i class="icon-search">
+            </i>
+            <span id="add_strategic" class="btn-blue" data-toggle="modal" data-target="#AddModal">添加</span>
+        </div>
+        <div id="well-top" class="well well-dataTable">
+            <table id="list" class="table-responsive table">
+                <thead>
+                    <tr>
+                        <th width="70%">名称</th>
+                        <th width="30%">
+                            操作
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id='strategic_body'>
+                </tbody>
+            </table>
+        </div>
+        <div id="well-bottom" class="well well-dataTable">
+            <div id="strategic_foot" style="margin-top:10px;margin:0 auto;width:200px;height:30px;line-height: 30px;">
+                <span>
+                    <i class="icon-arrow-circle-left"></i>
+                </span>
+                <span>
+                    <i class="icon-caret-right"></i>
+                </span>
+                <span>
+                    <span>1</span>
+                </span>
+                <span>
+                    <span>/999</span>
+                </span>
+                <span>
+                    <i class="icon-play-circle"></i>
+                </span>
+                <span>
+                    <i class="icon-arrow-circle-right"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="foot">
+    </div>
+    <!--新增一条列表里面的策略 -->
+    <div id="AddModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: true;margin-top:150px;" class="modal hide fade">
+        <div class="modal-header">
+            <button type="button" data-dismiss="modal" aria-hidden="true" class="close">×</button>
+            <h3> 新建策略</h3>
+        </div>
+        <div style="height:80px" class="modal-body">
+            <div class="control-group row-fluid">
+                <label for="name" class="control-label span2">
+                    策略名称:
+                </label>
+                <div class="controls span8">
+                    <input id="strategic_name" calss="row-fluid" type="text" name='name'>
+                </div>
+                <div class="add-tip">
+                    <!-- 策略名称已使用/ -->
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer color-fff">
+            <button data-dismiss="modal" aria-hidden="true" class="btn">取消</button>
+            <button id="sure_add" aria-hidden="true" class="btn btn-info">确认</button>
+        </div>
+    </div>
+
+    <!-- 编辑列表里面策略的条件等 -->
+    <div id="EditModal" tabindex="-1" role="dialog" aria-labelledby="ihModalLabel" aria-hidden="true" style="width:720px;margin-left: -350px;border-radius: 0;margin-top:150px;display:none;"
+        class="modal hide fade">
+        <div class="modal-header">
+            <button type="button" data-dismiss="modal" aria-hidden="true" class="close">×</button>
+            <h3> 策略编辑</h3>
+        </div>
+        <div class="modal-body" id="edit_body">
+
+        </div>
+
+        <div class="modal-footer color-fff">
+            <button data-dismiss="modal" aria-hidden="true" class="btn">取消</button>
+            <button id="save_edit" data-dismiss="modal" aria-hidden="true" class="btn btn-info">确认</button>
+        </div>
+    </div>
+    <script id="edit_template" type="text/x-handlebars-template">
+        <!-- {{#each this}} -->
+        <div class="body-title">条件
+                <span class="or-and">
+                    <span class="fright mleft">符合所有条件</span>
+                    <span class="fright mleft-10">
+                        {{#if cond_type_and}}
+                            <input type="radio" name="radio" checked="checked" style="margin:0;" value="if_and">
+                        {{else}}
+                            <input type="radio" name="radio" style="margin:0;" value="if_and">
+                        {{/if}}
+                    </span>
+                    <span class="fright mleft">符合任一条件</span>
+                    <span class="fright">
+                        {{#if cond_type_or}}
+                            <input type="radio" name="radio" checked="checked" style="margin:0;" value="if_or">
+                        {{else}}
+                            <input type="radio" name="radio" style="margin:0;" value="if_or">
+                        {{/if}}
+                    </span>
+                </span>
+            </div>
+            <div>
+                <table id="condions" class="table-responsive table">
+                    <thead style="width:720px;">
+                        <tr style="width:720px;">
+                            <th width="30%">
+                                <input class="condions-number" style="width: 140px;" type="text" placeholder="输入设备编号">
+                            </th>
+                            <th width="20%">
+                                <select class="condions-select" id="" placeholder="选择属性" style="width: 100px;">
+                                    <option value="level">亮度</option>
+                                    <option value="temp">温度</option>
+                                </select>
+                            </th>
+                            <th width="0%">
+                                <input class="condions-firstno" type="text" placeholder="输入值" style="width: 100px;display: none;"></input>
+                            </th>
+                            <th width="20%">
+                                <select class="condions-if"  id="" placeholder="输入条件" style="width: 100px;">
+                                        <option value="eq">等于</option>
+                                        <option value="lt">小于</option>
+                                        <option value="gt">大于</option>
+                                        <option value="bt">至</option>
+                                </select>
+                            </th>
+                            <th width="15%">
+                                <input class="condions-lastno" type="text" placeholder="输入值" style="width: 100px;"></input>
+                            </th>
+                            <th width="10%">
+                                <span id="add_condions" class="edit-add">+</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {{#if cond_type_and}}
+                        {{#each this.rule_if.and}}
+                            <tr>
+                                <td>{{number}}</td>
+                                <td>{{iftype conditions}}</td>
+                                <td>{{start_if_num}}</td>
+                                <td>{{value_type if_type}}</td>
+                                <td>{{if_num}}</td>
+                                <td>
+                                    <i data-num={{@index}} class="condions-del icon-trash"></i>
+                                </td>
+                            </tr>
+                        {{/each}}
+                    {{else}}
+                        {{#each this.rule_if.or}}
+                            <tr>
+                                <td>{{number}}</td>
+                                <td>{{iftype conditions}}</td>
+                                <td>{{start_if_num}}</td>
+                                <td>{{value_type if_type}}</td>
+                                <td>{{if_num}}</td>
+                                <td>
+                                    <i data-num={{@index}} class="condions-del icon-trash"></i>
+                                </td>
+                            </tr>
+                        {{/each}}
+                    {{/if}}
+                    </tbody>
+                </table>
+            </div>
+            <div class="body-title btop">动作</div>
+            <div>
+                <table id="action" class="table-responsive table ">
+                    <thead style="width:720px;">
+                        <tr style="width:720px;">
+                            <th width="30%">
+                                <input class="action-number" style="width: 140px;" type="text" placeholder="输入设备编号">
+                            </th>
+                            <th width="20%">
+                                <select class="action-select" id="" placeholder="选择属性" style="width: 100px;">
+                                    <option value="level">亮度</option>
+                                    <option value="temp">温度</option>
+                                </select>
+                            </th>
+                            <th width="15%">
+                                <input class="action-lastno" type="text" placeholder="输入值" style="width: 100px;"></input>
+                            </th>
+                            <th width="10%">
+                                <span id="add_action" class="edit-add">+</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            {{#each this.rthen}}
+                            <tr>
+                                <td>{{number}}</td>
+                                <td>{{iftype conditions}}</td>
+                                <td>{{if_num}}</td>
+                                <td>
+                                    <i data-num={{@index}} class="action-del icon-trash"></i>
+                                </td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        <!-- {{/each}} -->
+    </script>
+    <!-- 删除列表里面的策略 -->
+    <div id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true" style="width:220px;display: true;margin-top:150px;margin-left:-110px;"
+        class="modal hide fade">
+        <div style="height:140px" class="">
+            <div>
+                <i class="icon-close-circle"> </i>
+            </div>
+            <div>
+                是否删此策略？
+            </div>
+            <div>
+                <div class="">
+                    <span class="btn-gray" data-dismiss="modal">取消</span>
+                    <span id="sure_del" class="btn-blue">确认</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script id="list_template" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td width="87%">{{name}}</td>
+        <td width="13%">
+            <span class='list-edit' data-id={{id}} data-toggle="modal" data-target="#EditModal">编辑
+                <a href="#">
+                    <i class="icon-pencil-square-o"></i>
+                </a>
+            </span>
+            <span class='list-delete' data-id={{id}} data-toggle="modal" data-target="#DeleteModal">删除
+                <a href="#">
+                    <i class="icon-trash"></i>
+                </a>
+            </span>
+        </td>
+    </tr>
+    {{/each}}
+</script>
+
+</html>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="../public/js/bootstrap.min.js"></script>
+<script src="../public/js/handlebars-v3.0.3.js"></script>
+<script src="../public/js/underscore.js"></script>
+<script src="../public/js/list.js"></script>
