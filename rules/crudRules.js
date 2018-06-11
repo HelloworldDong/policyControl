@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
+var Rule = require('../entities/rule.js');
 var db = require("../database/handleDB.js");
-var getRules = require('./getRules');
+
 router.get('/', async function (req, res, next) {
   var data = await db.read('select * from rules');
   res.json(data);

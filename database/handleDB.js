@@ -2,11 +2,11 @@
  * Module dbutils
  * A database connection utility
  */
-const db = require('./config.json');
+const dbconfig = require('./config.json');
 let mysql = require('mysql');
 let Promise = require('bluebird');
 
-let pool = mysql.createPool(db);
+let pool = mysql.createPool(dbconfig);
 
 module.exports = {
 	/**
@@ -34,6 +34,7 @@ module.exports = {
 						}else{
 							con.release();
 							resolve(results);
+							console.log(fields);
 						}
 					});
 				}
@@ -65,7 +66,7 @@ module.exports = {
 						cb(err);
 					}else{
 						con.release();
-						cb(results);
+						cb(err,results);
 					}
 				});
 			}

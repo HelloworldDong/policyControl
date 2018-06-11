@@ -4,5 +4,5 @@
   "user": "root",
   "password": "1234",
   "database": "policyControl",
-  "connectionLimit": 10
+  "connectionLimit": 100
 }
