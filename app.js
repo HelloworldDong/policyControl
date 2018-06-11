@@ -132,7 +132,7 @@ async function init() {
   console.log(global.relation);
 }
 
-init()
+
 
 var client = mqtt.connect("mqtt://localhost:8000"); 
 

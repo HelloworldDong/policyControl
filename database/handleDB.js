@@ -34,7 +34,7 @@ module.exports = {
 						}else{
 							con.release();
 							resolve(results);
-							console.log(fields);
+							//console.log(fields);
 						}
 					});
 				}

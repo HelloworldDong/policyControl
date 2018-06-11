@@ -3,27 +3,103 @@ var router = express.Router();
 var Rule = require('../entities/rule.js');
 var db = require("../database/handleDB.js");
 
-router.get('/', async function (req, res, next) {
-  var data = await db.read('select * from rules');
-  res.json(data);
+router.get('/', function (req, res, next) {
+  var name = req.query.name;
+  var limit = Number(req.query.limit||20);
+  var offset = Number(req.query.offset||0);
+  if(name){
+    var getData = db.read("select * from rules where name like ? limit ? offset ?",[`%${name}%`,limit,offset]);
+    getData.then(data=>{
+      res.status(200).json(data);
+    },err=>{
+      res.status(400).send(err);
+    })
+  }else{
+    var getData = db.read("select * from rules limit ? offset ?",[limit,offset]);
+    getData.then(data=>{
+      res.status(200).json(data);
+    },err=>{
+      res.status(400).send(err);
+    })
+  }
 });
 
-router.post('/', function (req, res, next) {
-  var rif = req.body.rif;
-  var rthen = req.body.rthen;
-  db.write(`insert into rules(rif,rthen) values(?,?)`, [rif, rthen], console.log);
+router.get('/count',function(req,res){
+  var name = req.query.name;
+  if(name){
+    var getNum = db.read("select count(*) from rules where name like ?",[`%${name}%`]);
+    getNum.then(data=>{
+      let value = {};
+      value.num = data[0]['count(*)'];
+      res.status(200).json(value);
+    },err=>{
+      res.status(400).send(err);
+    })
+  }else{
+    var getData = db.read("select count(*) from rules");
+    getData.then(data=>{
+      let value = {};
+      value.num = data[0]['count(*)'];
+      res.status(200).json(value);
+    },err=>{
+      res.status(400).send(err);
+    })
+  }
 });
 
-router.delete('/', function (req, res, next) {
-  var id = req.body.id;
-  db.write(`delete from rules where id = ?`, [id], console.log);
+router.get('/:id',function(req,res){
+  var id = req.params.id;
+  var getRule = db.read('select * from rules where id = ?',[id]);
+  getRule.then(data=>{
+    res.status(200).json(data[0]);
+  },err=>{
+    res.status(400).send(err);
+  });
+
+});
+router.post('/', function (req, res) {
+  if(!req.body.rule){
+    res.status(400).send('parameter needed');
+    return ;
+  }
+  var param = JSON.parse(req.body.rule);
+  var arule = new Rule(null,param.name,JSON.stringify(param.rif),JSON.stringify(param.rthen));
+  arule.save((err,result)=>{
+    if(err){
+      res.status(500).send(err);
+    }
+    else{
+      arule.setId(result.insertId)
+      res.status(201).json(arule);
+    }
+  });
 });
 
-router.put('/', function (req, res, next) {
-  var id = req.body.id;
-  var rif = req.body.rif;
-  var rthen = req.body.rthen;
-  db.write(`update rules set rif = ?, rthen = ? where id = ?`, [rif, rthen, id], console.log);
+router.delete('/:id', function (req, res) {
+  var arule = new Rule(req.params.id,null,null,null);
+  arule.delete(err=>{
+    if(err){
+      res.sendStatus(403);
+    }else{
+      res.sendStatus(204);
+    }
+  });
+});
+
+router.put('/:id', function (req, res) {
+  if(!req.body.rule){
+    res.status(400).send('parameter needed');
+    return;
+  }
+  var data = JSON.parse(req.body.rule); 
+  var arule = new Rule(Number(req.params.id),JSON.stringify(data.name),JSON.stringify(data.rif),JSON.stringify(data.rthen));
+  arule.update((err,result)=>{
+    if(err){
+      res.status(409).send(err);
+    }else{
+      res.status(200).json(arule);
+    }
+  });
 });
 
 module.exports = router;
