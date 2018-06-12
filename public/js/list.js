@@ -360,11 +360,65 @@
                 type: 'PUT',
                 success: function (result) {
                     if (result.statusCode == '200') {
-                        alert('保存成功！');
                     } else {
-                        alert('保存失败！');
                     }
                 }
             })
+        })
+        .on('click', '#first', function (e) {//最前页面
+            if (!$(this).hasClass('gray')) {
+                $.ajax({
+                    url: 'api/rules/?name=&&limit=10&&offert=&&10',
+                    type: 'GET',
+                    success: function (result) {
+                        if (result.statusCode == '200') {
+                        } else {
+                        }
+                    }
+                })
+            }
+        })
+        .on('click', '#left', function (e) {//前一页
+            if (!$(this).hasClass('gray')) {
+                $.ajax({
+                    url: 'api/rules/?name=&&limit=10&&offert=&&10',
+                    type: 'PUT',
+                    success: function (result) {
+                        if (result.statusCode == '200') {
+                        } else {
+                        }
+                    }
+                })
+            }
+        })
+        .on('click', '#right', function (e) {//后一页 one_num/two_num
+            if (!$(this).hasClass('gray')) {
+                $.ajax({
+                    url: 'api/rules/?name=&&limit=10&&offert=&&10',
+                    type: 'GET',
+                    success: function (result) {
+                        if (result.statusCode == '200') {
+                        } else {
+                        }
+                    }
+                })
+            }
+        })
+        .on('click', '#last', function (e) {//最后页面
+            // $('#last i').removeClass('gray');
+            // console.log('111111')
+            if (!$(this).hasClass('gray')) {
+                $.ajax({
+                    url: 'api/rules/?name=&&limit=10&&offert=&&10',
+                    type: 'GET',
+                    success: function (result) {
+                        if (result.statusCode == '200') {
+                            alert('保存成功！');
+                        } else {
+                            alert('保存失败！');
+                        }
+                    }
+                })
+            }
         })
 })()
