@@ -27,7 +27,7 @@ app.get('/',function(req,res){
   res.render('index', { title: 'PolicyControl' });
 })
 
-app.use("/rules", rulesRouter);
+app.use("/api/rules", rulesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -132,7 +132,7 @@ async function init() {
   console.log(global.relation);
 }
 
-init()
+
 
 var client = mqtt.connect("mqtt://localhost:8000"); 
 
