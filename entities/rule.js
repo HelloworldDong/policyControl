@@ -42,7 +42,10 @@ class rule {
   delete(cb){
     db.write(`delete from rules where id = ?`, [this.id], cb);
   }
-
+  toJSON(){
+    this.rif=JSON.parse(this.rif);
+    this.rthen=JSON.parse(this.rthen);
+  }
 
 }
 

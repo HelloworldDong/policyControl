@@ -57,12 +57,13 @@ router.get('/:id',function(req,res){
   });
 
 });
+
 router.post('/', function (req, res) {
-  if(!req.body.rule){
+  if(!req.body){
     res.status(400).send('parameter needed');
     return ;
   }
-  var param = JSON.parse(req.body.rule);
+  var param = JSON.parse(req.body);
   var arule = new Rule(null,param.name,JSON.stringify(param.rif),JSON.stringify(param.rthen));
   arule.save((err,result)=>{
     if(err){
@@ -70,6 +71,7 @@ router.post('/', function (req, res) {
     }
     else{
       arule.setId(result.insertId)
+      arule.toJSON();
       res.status(201).json(arule);
     }
   });
@@ -87,16 +89,17 @@ router.delete('/:id', function (req, res) {
 });
 
 router.put('/:id', function (req, res) {
-  if(!req.body.rule){
+  if(!req.body){
     res.status(400).send('parameter needed');
     return;
   }
   var data = JSON.parse(req.body.rule); 
-  var arule = new Rule(Number(req.params.id),JSON.stringify(data.name),JSON.stringify(data.rif),JSON.stringify(data.rthen));
+  var arule = new Rule(Number(req.params.id),data.name,JSON.stringify(data.rif),JSON.stringify(data.rthen));
   arule.update((err,result)=>{
     if(err){
       res.status(409).send(err);
     }else{
+      arule.toJSON();
       res.status(200).json(arule);
     }
   });
