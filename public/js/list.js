@@ -24,6 +24,22 @@
     })
 
     var delete_id, edit_id, condition_type;
+//     $.get('api/rules/', function (data) {//查重还有创建
+// console.log('data----',data)
+//     })为什么用这个不行
+
+    $.ajax({
+        url: 'api/rules/',
+        type: 'GET',
+        success: function (result) {
+            console.log('获取数据',result)
+            // if (result.statusCode == '204') {
+            //     alert('删除成功！');
+            // } else {
+            //     alert('删除失败！');
+            // }
+        }
+    })
     var date = [{
         id: '1234567',
         name: 'one',
@@ -212,11 +228,13 @@
             delete_id = $(this).data('id');//要删除的策略的id
         })
         .on('click', '#sure_del', function (e) { // 确定删除策略
+            console.log('delete_id',delete_id)
             e.preventDefault();
             $.ajax({
-                url: 'api/rules/:delete_id',
+                url: 'api/rules/'+delete_id,
                 type: 'DELETE',
                 success: function (result) {
+                    console.log('result000',result)
                     if (result.statusCode == '204') {
                         alert('删除成功！');
                     } else {

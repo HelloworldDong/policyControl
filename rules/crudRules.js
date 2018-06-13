@@ -78,6 +78,7 @@ router.post('/', function (req, res) {
 });
 
 router.delete('/:id', function (req, res) {
+  console.log('req.params.id',req.params.id)
   var arule = new Rule(req.params.id, null, null, null);
   arule.delete(err => {
     if (err) {
@@ -94,6 +95,7 @@ router.put('/:id', function (req, res) {
     return;
   }
   var data = JSON.parse(req.body);
+  console.log('更新的数据data',data)
   var arule = new Rule(Number(req.params.id), data.name, JSON.stringify(data.rif), JSON.stringify(data.rthen));
   arule.update((err, result) => {
     if (err) {
