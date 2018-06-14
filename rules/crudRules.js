@@ -93,7 +93,7 @@ router.put('/:id', function (req, res) {
     res.status(400).send('parameter needed');
     return;
   }
-  var data = JSON.parse(req.body.rule); 
+  var data = JSON.parse(req.body); 
   var arule = new Rule(Number(req.params.id),data.name,JSON.stringify(data.rif),JSON.stringify(data.rthen));
   arule.update((err,result)=>{
     if(err){

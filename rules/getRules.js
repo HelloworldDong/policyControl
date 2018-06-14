@@ -70,4 +70,134 @@ async function getRules() {
   console.log(global.relation)
 }
 
+function processIf(data){
+  if(data.and){
+    var conditions=data.and;
+    var str='';
+    for(var i=0;i<conditions.length;i++){
+      var result=''
+      var cond=conditions[i];
+      for(var key in cond){
+        var device = key.split('.');
+        result=result+'devices['+device[0]+'].'+device[1];
+        var op=cond[key];
+        for(var key2 in op){
+          switch(key2){
+            case 'gt':
+              result+='>';
+              break;
+            case 'lt':
+              result+='<';
+              break;
+            case 'eq':
+              result+='=';
+              break;
+            case 'gte':
+              result+='>=';
+              break;
+            case 'lte':
+              result+='<=';
+              break;
+
+          }
+         result+=op[key2];
+        } 
+      }
+      if(str==''){
+        str=result;
+      }
+      else{
+        str=str+"&&"+result;
+      }
+    }
+    return str;
+  }
+  if(data.or){
+    var conditions=data.or;
+    var str='';
+    for(var i=0;i<conditions.length;i++){
+      var result=''
+      var cond=conditions[i];
+      for(var key in cond){
+        var device = key.split('.');
+        result=result+'devices['+device[0]+'].'+device[1];
+        var op=cond[key];
+        for(var key2 in op){
+          switch(key2){
+            case 'gt':
+              result+='>';
+              break;
+            case 'lt':
+              result+='<';
+              break;
+            case 'eq':
+              result+='=';
+              break;
+            case 'gte':
+              result+='>=';
+              break;
+            case 'lte':
+              result+='<=';
+              break;
+
+          }
+         result+=op[key2];
+        } 
+      }
+      if(str==''){
+        str=result;
+      }
+      else{
+        str=str+"||"+result;
+      }
+    }
+    return str;
+  }
+}
+
+function processThen(data){
+  var result=[];
+  for(var i =0;i<data.length;i++){
+    var action=data[i];
+    for(var key in action){
+      var device=key.split('.');
+      switch(device[1]){
+        case 'light':
+         result.push(`set device ${device[0]} light = ${action[key]}`);
+         break;
+        case 'running':{
+          if(action[key]==0)
+           result.push(`turn on device ${device[0]}`);
+          else
+          result.push(`turn off device ${device[0]}`);
+        }
+
+      }
+    }
+  }
+  return result;
+}
+
+var dataif={
+  "or":[
+    {"1.light":
+     {
+      "gt":10
+     }
+    },
+    {
+      "2.light":
+      {
+        "eq":20
+      }
+    }
+  ]
+}
+var datathen=[
+  {"1.light":20},
+  {"2.running":1}
+]
+
+console.log(processIf(dataif))
+console.log(processThen(datathen));
 module.exports = getRules;
