@@ -136,7 +136,7 @@ async function init() {
 
 }
 
-init()
+//init()
 
 var client = mqtt.connect("mqtt://localhost:8000");
 

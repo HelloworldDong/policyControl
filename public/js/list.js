@@ -128,6 +128,7 @@
                 condition_type = 'if_or';
                 e_date.cond_type_or = "or"//默认初始值是符合任一条件
             }
+            console.log('e_date---',e_date)
             e_date = [e_date]
             var edit_date = edit_template(e_date);//yyy
             $("#edit_body").html(edit_date);
@@ -323,6 +324,11 @@
         })
         .on('click', '.condions-del', function (e) {//删除条件
             var del_num = $(this).data('num');//每个垃圾桶的序号
+            console.log('del_num---', del_num)
+            console.log('删除条件post_date---', post_date)
+            if(_.isString(post_date.rif)){
+                post_date.rif = JSON.parse(post_date.rif);
+            }
             if (condition_type == 'if_and') {//符合所有条件
                 post_date.rif.and = _.without(post_date.rif.and, post_date.rif.and[del_num]);
             } else {//符合任何一个条件 if_or
@@ -370,10 +376,10 @@
                 },
                 error: function (data) {
                     if (data.status == '200') {
-                        console.log('保存成功！')
+                        alert('保存成功！')
                         location.reload();
                     } else {
-                        console.log('保存失败！')
+                        alert('保存失败！')
                     }
                 }
             })
