@@ -32,15 +32,40 @@ class rule {
   }
 
   save(callback) {
-    db.write('insert into rules(name,rif,rthen) values(?,?,?)', [this.name, this.rif, this.rthen], callback);
+    if(this.name==null){
+      callback('parameter name needed');
+    }else if(this.rif==null&&this.rthen==null){
+      db.write('insert into rules(name) values(?)', [this.name], callback);  
+    }else if(this.rif!=null&&this.rthen==null){
+      db.write('insert into rules(name,rif) values(?,?)', [this.name, this.rif], callback);
+    }else if(this.rif==null&&this.rthen!=null){
+      db.write('insert into rules(name,rthen) values(?,?)', [this.name, this.rthen], callback);
+    }else{
+      db.write('insert into rules(name,rif,rthen) values(?,?,?)', [this.name, this.rif,this.rthen], callback);
+    }
+   
   }
 
   update(cb) {
-    db.write(`update rules set name = ?,rif = ?, rthen = ? where id = ?`, [this.name, this.rif, this.rthen, this.id], cb);
+    if(this.id==null||this.name==null){
+      cb('id and name needed');
+    }else if(this.rif==null&&this.rthen==null){
+      db.write('update rules set name = ? where id = ?`', [this.name,this.id], cb);  
+    }else if(this.rif!=null&&this.rthen==null){
+      db.write('update rules set name = ? , rif = ? where id = ?`', [this.name,this.rif,this.id], cb);  
+    }else if(this.rif==null&&this.rthen!=null){
+      db.write('update rules set name = ? , rthen = ? where id = ?`', [this.name,this.rthen,this.id], cb);  
+    }else{
+      db.write(`update rules set name = ?,rif = ?, rthen = ? where id = ?`, [this.name, this.rif, this.rthen, this.id], cb);
+    }
   }
 
   delete(cb) {
-    db.write(`delete from rules where id = ?`, [this.id], cb);
+    if(this.id==null){
+      cb('id needed');
+    }else{
+      db.write(`delete from rules where id = ?`, [this.id], cb);
+    }
   }
   toJSON() {
     this.rif = JSON.parse(this.rif);

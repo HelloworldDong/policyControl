@@ -3,7 +3,20 @@ var router = express.Router();
 var Rule = require('../entities/rule.js');
 var db = require("../database/handleDB.js");
 
+
+function stringToJson(data){
+  if(!data)
+    console.log("empty input");
+  for(var i =0;i<data.length;i++){
+    
+  }
+}
+
 router.get('/', function (req, res, next) {
+  if(!req.query){
+    res.status(400).send('错误的调用');
+    return;
+  }
   var search_name = req.query.search_name;
   // var name = req.query.name;
   var name = search_name;//这边已经传过来了
@@ -34,6 +47,10 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/count', function (req, res) {
+  if(!req.query){
+    res.status(400).send('错误的调用');
+    return;
+  }
   var name = req.query.name;
   if (name) {
     var getNum = db.read("select count(*) from rules where name like ?", [`%${name}%`]);
@@ -57,9 +74,14 @@ router.get('/count', function (req, res) {
 });
 
 router.get('/:id', function (req, res) {
+  if(!req.params.id){
+    res.status(400).send('错误的调用');
+    return;
+  }
   var id = req.params.id;
   var getRule = db.read('select * from rules where id = ?', [id]);
   getRule.then(data => {
+    var arule = new Rule(data[0].id,data[0].name,data[0].rif,data[0].rthen,data[0]);
     res.status(200).json(data[0]);
   }, err => {
     res.status(400).send(err);
@@ -78,7 +100,7 @@ router.post('/', function (req, res) {
   var param = req.body;
   param.name = param.policy_name;
   console.log('param-----', param)
-  var arule = new Rule(null, param.name, JSON.stringify(param.rif), JSON.stringify(param.rthen));
+  var arule = new Rule(null, param.name, param.rif==null?null:JSON.stringify(param.rif), param.rthen==null?null:JSON.stringify(param.rthen));
   console.log('arule-----', arule)
 
   arule.save((err, result) => {
@@ -106,14 +128,14 @@ router.delete('/:id', function (req, res) {
 });
 
 router.put('/:id', function (req, res) {
-  if (!req.body) {
+  if (!req.body||!req.params) {
     res.status(400).send('parameter needed');
     return;
   }
   console.log('req.body---', req.body)
-  var data = JSON.parse(req.body);
+  var data = req.body;
   console.log('更新的数据data', data)
-  var arule = new Rule(Number(req.params.id), data.name, JSON.stringify(data.rif), JSON.stringify(data.rthen));
+  var arule = new Rule(Number(req.params.id), data.name, data.rif==null?null:JSON.stringify(data.rif), data.rthen==null?null:JSON.stringify(data.rthen));
   arule.update((err, result) => {
     if (err) {
       console.log('err--------', err)
