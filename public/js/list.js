@@ -47,15 +47,18 @@
                 date_copy = JSON.parse(JSON.stringify(date));
                 _.each(date_copy, function (x) {
                     if (x.rthen) {
+                        x.rthen = JSON.parse(x.rthen);
                         _.each(x.rthen, function (v) {
                             var keys = _.keys(v)[0];
                             v.number = _.keys(v)[0].split('.')[0];
                             v.conditions = _.keys(v)[0].split('.')[1];
                             var yp = [v];//变成数组才能用下面的pluck
-                            v.if_num = _.pluck(yp, keys)[0]
+                            v.if_num = _.pluck(yp, keys)[0];
                         })
                     }
+                    x.rif =  JSON.parse(x.rif);
                     if (x && x.rif && x.rif.and) {
+                        console.log('111111111111111')
                         x.cond_type_and = 'and';
                         _.each(x.rif.and, function (y) {
                             var keys = _.keys(y)[0];
@@ -73,6 +76,7 @@
                             }
                         })
                     } else if (x && x.rif && x.rif.or) {
+                        console.log('222222222222')
                         x.cond_type_or = 'or';
                         _.each(x.rif.or, function (y) {
                             var keys = _.keys(y)[0];
