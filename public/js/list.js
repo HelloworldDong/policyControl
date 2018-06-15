@@ -437,7 +437,7 @@
             $.ajax({
                 url: 'api/rules/' + edit_id,
                 type: 'PUT',
-                data: JSON.stringify(post_date),
+                data: {data:JSON.stringify(post_date)},
                 success: function (data) {
                     console.log('更新的返回值-----', data)
                     if (result.statusCode == '200') {
