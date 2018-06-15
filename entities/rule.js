@@ -68,8 +68,8 @@ class rule {
     }
   }
   toJSON() {
-    this.rif = JSON.parse(this.rif);
-    this.rthen = JSON.parse(this.rthen);
+    this.rif = this.rif==null?null:JSON.parse(this.rif);
+    this.rthen = this.rthen==null?null:JSON.parse(this.rthen);
   }
 }
 

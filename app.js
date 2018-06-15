@@ -125,15 +125,18 @@ function onListening() {
 async function init() {
   global.policy = [];
   global.relation = new Map();
-  global.states = {};
-  await getRules();
+  global.states = [];
+  getRules();
   await getStates();
   console.log(global.states);
-  console.log(global.policy);
-  console.log(global.relation);
+  setTimeout(()=>{
+    console.log(global.policy[1].toString());
+    console.log(global.relation);
+  },1000);
+
 }
 
-
+init()
 
 var client = mqtt.connect("mqtt://localhost:8000");
 
