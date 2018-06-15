@@ -215,9 +215,11 @@
             if (!$('#strategic_name').val()) {
                 $('.add-tip').html('策略名称不能为空！');
                 $('.add-tip').show();
+                return
             } else if (!reg.test($('#strategic_name').val())) {
                 $('.add-tip').html('仅能使用汉字，字母，数字或者下划线');
                 $('.add-tip').show();
+                return
             } else {
                 $('#AddModal').modal('hide');
             }
@@ -267,7 +269,9 @@
                         $('#strategic_body tr').remove();
                         var str = '<tr><td width="87%">没有搜索到匹配的结果</td><td width="13%"></td></tr>';
                         $('#strategic_body').append(str);
+                        $('#one_num').html('0');
                     } else {
+                        $('#one_num').html('1');
                         var list_template = Handlebars.compile($('#list_template').html());
                         var list_date = list_template(data);
                         $("#strategic_body").html(list_date);
@@ -319,15 +323,20 @@
                 condions_obj[number + '.' + select][cif] = lastno;
                 if (condition_type == 'if_and') {//符合所有条件
                     if (!post_date.rif) {//因为新建的策略是没有这些默认值的，所以这里要初始化
-                        post_date.rif = {}
-                        post_date.rif.and = []
+                        post_date.rif = {};
+                        post_date.rif.and = [];
                     }
                     post_date.rif.and.push(condions_obj);
                 } else {//符合任何一个条件 if_or //因为新建的策略是没有这些默认值的，所以这里要初始化
                     if (!post_date.rif) {
-                        post_date.rif = {}
-                        post_date.rif.or = []
+                        console.log('!post_date.rif')
+                        post_date.rif = {};
+                        post_date.rif.or = [];
                     }
+                    console.log('post_date.rif', post_date.rif)
+                    console.log('post_date.rif.or', post_date.rif.or)
+                    console.log('condions_obj', condions_obj)
+
                     post_date.rif.or.push(condions_obj);
                 }
                 str = '<tr> <td>' + number + '</td> <td>' + select_t + '</td> <td>' + firstno + '</td> <td>' + cif_c + '</td> <td>' + lastno + '</td> <td><i data-num=' + data_num + ' class="condions-del icon-trash"></i></td> </tr>'
@@ -409,7 +418,9 @@
                     post_date.rif = { 'and': post_date.rif.or }
                 }
             }
-            console.log('post_date', post_date)
+            post_date.policy_name = post_date.name;
+            delete post_date["name"]
+            console.log('确认保存的----post_date', post_date)
             $.ajax({
                 url: 'api/rules/:edit_id',
                 type: 'PUT',

@@ -28,11 +28,11 @@ router.get('/', function (req, res, next) {
     getData.then(data => {
       res.status(200).json(data);
       console.log("有的data-------")
-      console.log("data-------",data)
+      console.log("data-------", data)
 
     }, err => {
       console.log("有的err------")
-      console.log("err------",err)
+      console.log("err------", err)
 
       res.status(400).send(err);
     })
@@ -141,6 +141,8 @@ router.put('/:id', function (req, res) {
       console.log('err--------', err)
       res.status(409).send(err);
     } else {
+      console.log('修改的。。没有err--------')
+
       arule.toJSON();
       res.status(200).json(arule);
     }
