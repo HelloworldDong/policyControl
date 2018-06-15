@@ -4,14 +4,23 @@ var Rule = require('../entities/rule.js');
 var db = require("../database/handleDB.js");
 
 router.get('/', function (req, res, next) {
-  var name = req.query.name;
+  var search_name = req.query.search_name;
+  // var name = req.query.name;
+  var name = search_name;//这边已经传过来了
+  console.log('name----', name)
   var limit = Number(req.query.limit || 20);
   var offset = Number(req.query.offset || 0);
   if (name) {
     var getData = db.read("select * from rules where name like ? limit ? offset ?", [`%${name}%`, limit, offset]);
     getData.then(data => {
       res.status(200).json(data);
+      console.log("有的data-------")
+      console.log("data-------",data)
+
     }, err => {
+      console.log("有的err------")
+      console.log("err------",err)
+
       res.status(400).send(err);
     })
   } else {
@@ -60,11 +69,18 @@ router.get('/:id', function (req, res) {
 
 router.post('/', function (req, res) {
   if (!req.body) {
+    console.log("post没有req.body")
     res.status(400).send('parameter needed');
     return;
   }
-  var param = JSON.parse(req.body);
+  console.log('req.body', req.body)
+  // var param = JSON.parse(req.body);
+  var param = req.body;
+  param.name = param.policy_name;
+  console.log('param-----', param)
   var arule = new Rule(null, param.name, JSON.stringify(param.rif), JSON.stringify(param.rthen));
+  console.log('arule-----', arule)
+
   arule.save((err, result) => {
     if (err) {
       res.status(500).send(err);
@@ -78,6 +94,7 @@ router.post('/', function (req, res) {
 });
 
 router.delete('/:id', function (req, res) {
+  console.log('删除req.params.id', req.params.id)
   var arule = new Rule(req.params.id, null, null, null);
   arule.delete(err => {
     if (err) {
@@ -93,10 +110,13 @@ router.put('/:id', function (req, res) {
     res.status(400).send('parameter needed');
     return;
   }
+  console.log('req.body---', req.body)
   var data = JSON.parse(req.body);
+  console.log('更新的数据data', data)
   var arule = new Rule(Number(req.params.id), data.name, JSON.stringify(data.rif), JSON.stringify(data.rthen));
   arule.update((err, result) => {
     if (err) {
+      console.log('err--------', err)
       res.status(409).send(err);
     } else {
       arule.toJSON();

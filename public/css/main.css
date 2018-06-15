@@ -234,9 +234,10 @@ thead th{
     border-top:0;
     padding-bottom: 0;
     padding-top: 20px;
-    /* border-top:0;
-    border:0; */
  } 
+ #well-bottom #strategic_foot{
+    margin-top:10px;margin:0 auto;width:200px;height:30px;line-height: 30px;
+}
 #well-bottom #strategic_foot>span{
     display: inline-block;
     cursor: pointer;
@@ -246,7 +247,6 @@ thead th{
     text-align: center;
     border-radius: 3px;
     margin-left: 4px;
-    /* color:rgb(185,186,187); */
     position: relative;
 }
 #well-bottom #strategic_foot>span:nth-child(3){

@@ -23,14 +23,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/',function(req,res){
+app.get('/', function (req, res) {
+  // res.render('index', { title: 'PolicyControl' });
   res.render('list');
 })
 
 app.use("/api/rules", rulesRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.render('404')
 });
 
@@ -134,18 +135,18 @@ async function init() {
 
 
 
-var client = mqtt.connect("mqtt://localhost:8000"); 
+var client = mqtt.connect("mqtt://localhost:8000");
 
-client.on('connect',function(){
+client.on('connect', function () {
   console.log("connected");
-  client.subscribe('test',{qos:1});
+  client.subscribe('test', { qos: 1 });
 })
 
-  
-client.on('message',function(topic,message) {  
-    var msg = JSON.parse(message.toString());
-    processMsg(msg)
-});  
+
+client.on('message', function (topic, message) {
+  var msg = JSON.parse(message.toString());
+  processMsg(msg)
+});
 
 
 
