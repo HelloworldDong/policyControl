@@ -92,85 +92,11 @@
                     }
                 })
             }
-            // if (result.statusCode == '204') {
-            //     alert('删除成功！');
-            // } else {
-            //     alert('删除失败！');
-            // }
             var list_template = Handlebars.compile($('#list_template').html());
             var list_date = list_template(date_copy);
             $("#strategic_body").html(list_date);
         }
     })
-    // var date = [{
-    //     id: '1234567',
-    //     name: 'one',
-    //     rif: {
-    //         'or': [
-    //             {
-    //                 'a.level': {
-    //                     'gt': 50
-    //                 },
-    //             },
-    //             {
-    //                 'b.temp': {
-    //                     'gt': 40
-    //                 },
-    //             },
-    //             {
-    //                 'c.level': {
-    //                     'bt': [12, 50]
-    //                 },
-    //             }]
-    //     },
-    //     rthen: [
-    //         {
-    //             'c.level':
-    //                 70
-    //         },
-    //         {
-    //             'D.level':
-    //                 60
-    //         },
-    //         {
-    //             'F.temp':
-    //                 40
-    //         }]
-    // }, {
-    //     id: '777788888',
-    //     name: 'two',
-    //     rif: {
-    //         'and': [
-    //             {
-    //                 'a.temp': {
-    //                     'gt': 300
-    //                 }
-    //             },
-    //             {
-    //                 'b.level': {
-    //                     'gt': 500
-    //                 }
-    //             },
-    //             {
-    //                 'e.level': {
-    //                     'bt': [20, 60]
-    //                 },
-    //             }]
-    //     },
-    //     rthen: [
-    //         {
-    //             'H.level':
-    //                 980
-    //         },
-    //         {
-    //             'c.level':
-    //                 200
-    //         },
-    //         {
-    //             'c.level':
-    //                 100
-    //         }]
-    // }]
     //封装------
     // var final_date;
     // var Handlebars=function(tem_id,date,html_id){
@@ -228,7 +154,7 @@
                 type: 'post',
                 data: post_data,
                 success: function (result) {
-                    console.log('result', result)
+                    // console.log('result', result)
                 },
                 error: function (result) {
                     console.log('error-result', result.status)
@@ -240,10 +166,6 @@
                     }
                 }
             })
-            // $.post('api/rules/', post_data, function (data) {//查重还有创建
-            //     console.log('创建-策略---', data)
-            // })
-            // location.reload();
         })
         .on('click', '.list-delete', function (e) { // 删除策略
             e.preventDefault();
@@ -256,12 +178,6 @@
                 url: 'api/rules/' + delete_id,
                 type: 'DELETE',
                 success: function (result) {
-                    // console.log('删除策略-----', result)
-                    // if (result.statusCode == '204') {
-                    //     alert('删除成功！');
-                    // } else {
-                    //     alert('删除失败！');
-                    // }
                     alert('删除成功！');
                     location.reload();
                 }
@@ -308,7 +224,6 @@
             var select_t = arr_t[arre_t.indexOf(select)];
             data_num = $('#condions').find('td i');
             data_num = data_num.length;
-            console.log('length', data_num)
 
             var arr_c = ['等于', '小于', '大于', '至'];
             var arre_c = ['eq', 'lt', 'gt', 'bt'];
@@ -344,10 +259,6 @@
                         post_date.rif = {};
                         post_date.rif.or = [];
                     }
-                    console.log('post_date.rif', post_date.rif)
-                    console.log('post_date.rif.or', post_date.rif.or)
-                    console.log('condions_obj', condions_obj)
-
                     post_date.rif.or.push(condions_obj);
                 }
                 str = '<tr> <td>' + number + '</td> <td>' + select_t + '</td> <td>' + firstno + '</td> <td>' + cif_c + '</td> <td>' + lastno + '</td> <td><i data-num=' + data_num + ' class="condions-del icon-trash"></i></td> </tr>'
@@ -431,22 +342,20 @@
             }
             post_date.policy_name = post_date.name;
             delete post_date["name"]
-            console.log('确认保存的----post_date', post_date)
             console.log('JSON.stringify(post_date)', JSON.stringify(post_date))
-
             $.ajax({
                 url: 'api/rules/' + edit_id,
                 type: 'PUT',
-                data: {data:JSON.stringify(post_date)},
+                data: { data: JSON.stringify(post_date) },
                 success: function (data) {
-                    console.log('更新的返回值-----', data)
+                    console.log('更新的正确返回值-----', data)
                     if (result.statusCode == '200') {
-                        alert('保存成功！')
+                        console.log('保存成功！')
                     }
                 },
                 error: function (data) {
-                    // console.log('error-data---', data)
-                    alert('保存失败！')
+                    console.log('更新的err---返回值-----', data)
+                    console.log('保存失败！')
                 }
             })
         })
@@ -491,7 +400,6 @@
         })
         .on('click', '#last', function (e) {//最后页面
             // $('#last i').removeClass('gray');
-            // console.log('111111')
             if (!$(this).hasClass('gray')) {
                 $.ajax({
                     url: 'api/rules/?name=&&limit=10&&offert=&&10',
