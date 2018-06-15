@@ -119,7 +119,7 @@ router.post('/', function (req, res) {
         }
         else {
           arule.setId(result.insertId)
-          arule.toJSON();
+          //arule.toJSON();
           res.status(201).json(arule);
         }
       });
@@ -153,7 +153,7 @@ router.put('/:id', function (req, res) {
   var data = JSON.parse(req.body.data);
   data.name = data.policy_name;
   console.log('更新的数据data222', data)
-  var arule = new Rule(req.params.edit_id, data.name, data.rif==null?null:JSON.stringify(data.rif), data.rthen==null?null:JSON.stringify(data.rthen));
+  var arule = new Rule(data.id, data.name, data.rif==null?null:JSON.stringify(data.rif), data.rthen==null?null:JSON.stringify(data.rthen));
   console.log(arule)
   arule.update((err, result) => {
     if (err) {
@@ -161,7 +161,7 @@ router.put('/:id', function (req, res) {
       res.status(409).send(err);
     } else {
       console.log('修改的。。没有err--------')
-      arule.toJSON();
+      //arule.toJSON();
       res.status(200).json(arule);
     }
   });
