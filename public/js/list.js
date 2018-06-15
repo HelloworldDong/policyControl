@@ -269,7 +269,9 @@
                         $('#strategic_body tr').remove();
                         var str = '<tr><td width="87%">没有搜索到匹配的结果</td><td width="13%"></td></tr>';
                         $('#strategic_body').append(str);
+                        $('#one_num').html('0');
                     } else {
+                        $('#one_num').html('1');
                         var list_template = Handlebars.compile($('#list_template').html());
                         var list_date = list_template(data);
                         $("#strategic_body").html(list_date);

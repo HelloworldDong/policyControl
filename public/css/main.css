@@ -173,8 +173,15 @@ thead th{
  #EditModal .icon-trash,#list .icon-trash{
     cursor: pointer;
     font-size: 16px;
-    margin-left: 0px;
+    margin-left: 0;
     color: rgb(235,81,89);
+}
+#action tr td:last-child{
+    position: relative;
+}
+#action tr td:last-child i{
+    position: absolute;
+    right: 15px;
 }
 #list .icon-trash{
     margin: 0;
@@ -203,6 +210,7 @@ thead th{
     position: absolute;
     top: 2px;
 }
+
 #DeleteModal div div {
     margin: 0 auto;
 }
