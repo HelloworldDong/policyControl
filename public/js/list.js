@@ -215,9 +215,11 @@
             if (!$('#strategic_name').val()) {
                 $('.add-tip').html('策略名称不能为空！');
                 $('.add-tip').show();
+                return
             } else if (!reg.test($('#strategic_name').val())) {
                 $('.add-tip').html('仅能使用汉字，字母，数字或者下划线');
                 $('.add-tip').show();
+                return
             } else {
                 $('#AddModal').modal('hide');
             }
@@ -409,7 +411,7 @@
                     post_date.rif = { 'and': post_date.rif.or }
                 }
             }
-            console.log('post_date', post_date)
+            console.log('确认保存的----post_date', post_date)
             $.ajax({
                 url: 'api/rules/:edit_id',
                 type: 'PUT',
