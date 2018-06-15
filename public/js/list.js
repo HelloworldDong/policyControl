@@ -413,6 +413,8 @@
                     post_date.rif = { 'and': post_date.rif.or }
                 }
             }
+            post_date.policy_name = post_date.name;
+            delete post_date["name"]
             console.log('确认保存的----post_date', post_date)
             $.ajax({
                 url: 'api/rules/:edit_id',
