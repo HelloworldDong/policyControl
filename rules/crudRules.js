@@ -134,6 +134,8 @@ router.put('/:id', function (req, res) {
   }
   console.log('req.body---', req.body)
   var data = req.body;
+  data.name = data.policy_name;
+
   console.log('更新的数据data', data)
   var arule = new Rule(Number(req.params.id), data.name, data.rif==null?null:JSON.stringify(data.rif), data.rthen==null?null:JSON.stringify(data.rthen));
   arule.update((err, result) => {
@@ -142,7 +144,6 @@ router.put('/:id', function (req, res) {
       res.status(409).send(err);
     } else {
       console.log('修改的。。没有err--------')
-
       arule.toJSON();
       res.status(200).json(arule);
     }

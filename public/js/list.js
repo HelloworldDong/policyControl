@@ -30,7 +30,6 @@
         url: 'api/rules/count',
         type: 'GET',
         success: function (result) {
-            console.log('获取数据总数 --count', result.num)
             if (result.num <= 20) {
                 console.log('不满一页')
                 $('#right').removeClass('black').addClass('gray');
@@ -196,13 +195,12 @@
             if (e_date && e_date.rif && e_date.rif.and) {
                 condition_type = 'if_and';
             } else {
-                console.log('KENDONGZOZH')
                 condition_type = 'if_or';
                 e_date.cond_type_or = "or"//默认初始值是符合任一条件
             }
             e_date = [e_date]
             var edit_date = edit_template(e_date);
-            // console.log('e_date---2222', e_date)
+            console.log('yyyyy---编辑的数据', e_date)
             $("#edit_body").html(edit_date);
         })
         .on('click', '#add_strategic', function (e) { // 列表里新增策略
