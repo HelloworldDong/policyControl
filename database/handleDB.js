@@ -64,6 +64,7 @@ module.exports = {
 				cb(err);
 			} else {
 				con.query(sql, params, function (err, results) {
+					console.log(sql)
 					if (err) {
 						console.log('55555')
 						con.release();

@@ -106,9 +106,9 @@ router.post('/', function (req, res) {
   // var param = JSON.parse(req.body);
   var param = req.body;
   param.name = param.policy_name;
-  var testExist=db.read('select count(*) from rules where name = ?',[params.name]);
+  var testExist=db.read('select count(*) from rules where name = ?',[param.name]);
   testExist.then(data=>{
-    if(data[0]['count(*)']>0){
+    if(data[0]['count(*)']<=0){
       console.log('param-----', param)
       var arule = new Rule(null, param.name, param.rif==null?null:JSON.stringify(param.rif), param.rthen==null?null:JSON.stringify(param.rthen));
       console.log('arule-----', arule)
@@ -124,7 +124,7 @@ router.post('/', function (req, res) {
         }
       });
     }else{
-      res.status(404).send('name existed');
+      res.status(400).send('name existed');
     }
   },err=>{
     res.status(500).send(err);
@@ -154,7 +154,7 @@ router.put('/:id', function (req, res) {
   data.name = data.policy_name;
 
   console.log('更新的数据data', data)
-  var arule = new Rule(Number(req.params.id), data.name, data.rif==null?null:JSON.stringify(data.rif), data.rthen==null?null:JSON.stringify(data.rthen));
+  var arule = new Rule(Number(data.id), data.name, data.rif==null?null:JSON.stringify(data.rif), data.rthen==null?null:JSON.stringify(data.rthen));
   arule.update((err, result) => {
     if (err) {
       console.log('err--------', err)
