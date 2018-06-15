@@ -7,9 +7,16 @@ var db = require("../database/handleDB.js");
 function stringToJson(data){
   if(!data)
     console.log("empty input");
+  var result = [];
   for(var i =0;i<data.length;i++){
-    
+    var obj=new JSON();
+    obj.id=data[i].id;
+    obj.name=data[i].name;
+    obj.rif=JSON.parse(data[i].rif);
+    obj.rthen =JSON.parse(data[i].rthen);
+    result.push(obj)
   }
+  return result;
 }
 
 router.get('/', function (req, res, next) {
@@ -99,20 +106,30 @@ router.post('/', function (req, res) {
   // var param = JSON.parse(req.body);
   var param = req.body;
   param.name = param.policy_name;
-  console.log('param-----', param)
-  var arule = new Rule(null, param.name, param.rif==null?null:JSON.stringify(param.rif), param.rthen==null?null:JSON.stringify(param.rthen));
-  console.log('arule-----', arule)
-
-  arule.save((err, result) => {
-    if (err) {
-      res.status(500).send(err);
+  var testExist=db.read('select count(*) from rules where name = ?',[params.name]);
+  testExist.then(data=>{
+    if(data[0]['count(*)']>0){
+      console.log('param-----', param)
+      var arule = new Rule(null, param.name, param.rif==null?null:JSON.stringify(param.rif), param.rthen==null?null:JSON.stringify(param.rthen));
+      console.log('arule-----', arule)
+    
+      arule.save((err, result) => {
+        if (err) {
+          res.status(500).send(err);
+        }
+        else {
+          arule.setId(result.insertId)
+          arule.toJSON();
+          res.status(201).json(arule);
+        }
+      });
+    }else{
+      res.status(404).send('name existed');
     }
-    else {
-      arule.setId(result.insertId)
-      arule.toJSON();
-      res.status(201).json(arule);
-    }
+  },err=>{
+    res.status(500).send(err);
   });
+
 });
 
 router.delete('/:id', function (req, res) {
