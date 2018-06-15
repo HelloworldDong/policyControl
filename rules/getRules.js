@@ -133,6 +133,13 @@ function processIf(id,data){
       var cond=conditions[i];
       for(var key in cond){
         var device = key.split('.');
+        if (global.relation.get(device[0]) == null) {
+          global.relation.set(device[0], [id]);
+        } else {
+          var rel = global.relation.get(device[0]);
+          if (rel.indexOf(id) == -1)
+            global.relation.get(device[0]).push(id);
+        }
         result=result+'devices['+device[0]+'].'+device[1];
         var op=cond[key];
         for(var key2 in op){
@@ -178,8 +185,8 @@ function processThen(data){
     for(var key in action){
       var device=key.split('.');
       switch(device[1]){
-        case 'light':
-         result.push(`set device ${device[0]} light = ${action[key]}`);
+        case 'level':
+         result.push(`set device ${device[0]} level = ${action[key]}`);
          break;
         case 'running':{
           if(action[key]==0)
@@ -238,8 +245,13 @@ function constructRules(){
     for (var i = 0; i < rules.length; i++) {
       var rif = processIf(rules[i].id,rules[i].rif);
       var rthen = processThen(rules[i].rthen);
-      var newRule = new Function('devices', `if(${rif}) console.log(${rthen})`);
-      global.policy[rules[i].id] = newRule;
+      if(rif!=''){
+        var fun=`if(${rif}) console.log(${rthen})`
+        console.log(fun)
+        var newRule = new Function('devices', `if(${rif}) console.log("${rthen}")`);
+        global.policy[rules[i].id] = newRule;
+      }
+
     }
   },err=>{
     console.log('read rules error')
@@ -247,5 +259,5 @@ function constructRules(){
 
 }
 
-//constructRules();
-module.exports = getRules;
+
+module.exports = constructRules;
