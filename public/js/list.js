@@ -79,6 +79,7 @@
                         console.log('222222222222')
                         x.cond_type_or = 'or';
                         _.each(x.rif.or, function (y) {
+                            // console.log('yyyyy',y)
                             var keys = _.keys(y)[0];
                             y.number = _.keys(y)[0].split('.')[0];
                             y.conditions = _.keys(y)[0].split('.')[1];
@@ -86,7 +87,9 @@
                             var ypp = [_.pluck(yp, keys)[0]]
                             var final_if_num = _.pluck(ypp, _.keys(_.pluck(yp, keys)[0])[0])[0];
                             y.if_type = _.keys(_.pluck(yp, keys)[0])[0];
-                            if (final_if_num.length) {//这种情况就是在值之间
+                            // console.log(' y.if_type', y.if_type)
+                            // console.log('final_if_num',final_if_num)
+                            if (y.if_type=='bt') {//这种情况就是在值之间
                                 y.start_if_num = final_if_num[0];
                                 y.if_num = final_if_num[1];
                             } else {
@@ -240,6 +243,9 @@
             if ($('.condions-if').val() == 'bt') {//如果选择了between的逻辑
                 condions_obj[number + '.' + select][cif] = [firstno, lastno]
                 if ($('.condions-number').val() && $('.condions-firstno').val() && $('.condions-lastno')) {
+                    if (_.isString(post_date.rif)) {//是string类型才转换，如果不是string类型。而进行转换的话会报错
+                        post_date.rif = JSON.parse(post_date.rif);
+                    }
                     if (condition_type == 'if_and') {//符合所有条件
                         post_date.rif.and.push(condions_obj);
                     } else {//符合任何一个条件 if_or
