@@ -150,11 +150,10 @@ router.put('/:id', function (req, res) {
     return;
   }
   console.log('req.body---', req.body)
-  var data = req.body;
+  var data = JSON.parse(req.body.data);
   data.name = data.policy_name;
-
-  console.log('更新的数据data', data)
-  var arule = new Rule((req.params.edit_id), data.name, data.rif==null?null:JSON.stringify(data.rif), data.rthen==null?null:JSON.stringify(data.rthen));
+  console.log('更新的数据data222', data)
+  var arule = new Rule(req.params.edit_id, data.name, data.rif==null?null:JSON.stringify(data.rif), data.rthen==null?null:JSON.stringify(data.rthen));
   console.log(arule)
   arule.update((err, result) => {
     if (err) {

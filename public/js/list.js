@@ -199,8 +199,7 @@
                 e_date.cond_type_or = "or"//默认初始值是符合任一条件
             }
             e_date = [e_date]
-            var edit_date = edit_template(e_date);
-            // console.log('yyyyy---编辑的数据', e_date)
+            var edit_date = edit_template(e_date);//yyy
             $("#edit_body").html(edit_date);
         })
         .on('click', '#add_strategic', function (e) { // 列表里新增策略
@@ -416,7 +415,7 @@
                 $(this).attr('data-num', x);
             })
         })
-        .on('click', '#save_edit', function (e) {//保存修改
+        .on('click', '#save_edit', function (e) {//确定保存编辑
             if (!post_date.rif) {
                 alert('请选择条件再保存！');
                 return
@@ -433,10 +432,12 @@
             post_date.policy_name = post_date.name;
             delete post_date["name"]
             console.log('确认保存的----post_date', post_date)
+            console.log('JSON.stringify(post_date)', JSON.stringify(post_date))
+
             $.ajax({
                 url: 'api/rules/' + edit_id,
                 type: 'PUT',
-                data: JSON.stringify(post_date),
+                data: {data:JSON.stringify(post_date)},
                 success: function (data) {
                     console.log('更新的返回值-----', data)
                     if (result.statusCode == '200') {
