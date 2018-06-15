@@ -5,10 +5,8 @@ var db = require("../database/handleDB.js");
 
 
 function stringToJson(data){
-  if(!data){
+  if(!data)
     console.log("empty input");
-    return;
-  }
   var result = [];
   for(var i =0;i<data.length;i++){
     var obj=new JSON();
@@ -35,7 +33,7 @@ router.get('/', function (req, res, next) {
   if (name) {
     var getData = db.read("select * from rules where name like ? limit ? offset ?", [`%${name}%`, limit, offset]);
     getData.then(data => {
-      res.status(200).json(stringToJson(data));
+      res.status(200).json(data);
       console.log("有的data-------")
       console.log("data-------", data)
 
@@ -48,7 +46,7 @@ router.get('/', function (req, res, next) {
   } else {
     var getData = db.read("select * from rules limit ? offset ?", [limit, offset]);
     getData.then(data => {
-      res.status(200).json(stringToJson(data));
+      res.status(200).json(data);
     }, err => {
       res.status(400).send(err);
     })
@@ -90,9 +88,8 @@ router.get('/:id', function (req, res) {
   var id = req.params.id;
   var getRule = db.read('select * from rules where id = ?', [id]);
   getRule.then(data => {
-    var arule = new Rule(data[0].id,data[0].name,data[0].rif,data[0].rthen);
-    arule.toJSON();
-    res.status(200).json(arule);
+    var arule = new Rule(data[0].id,data[0].name,data[0].rif,data[0].rthen,data[0]);
+    res.status(200).json(data[0]);
   }, err => {
     res.status(400).send(err);
   });
@@ -153,12 +150,11 @@ router.put('/:id', function (req, res) {
     return;
   }
   console.log('req.body---', req.body)
-
-  var data = JSON.parse(req.body);
+  var data = req.body;
   data.name = data.policy_name;
 
   console.log('更新的数据data', data)
-  var arule = new Rule(req.params.edit_id, data.name, data.rif==null?null:JSON.stringify(data.rif), data.rthen==null?null:JSON.stringify(data.rthen));
+  var arule = new Rule((req.params.edit_id), data.name, data.rif==null?null:JSON.stringify(data.rif), data.rthen==null?null:JSON.stringify(data.rthen));
   console.log(arule)
   arule.update((err, result) => {
     if (err) {

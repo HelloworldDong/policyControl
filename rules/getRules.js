@@ -1,6 +1,9 @@
 var db = require("../database/handleDB.js")
 var exe = require('./execute.js')
 
+global.policy = [];
+global.relation = new Map();
+global.states = {};
 
 /**
  * 
@@ -70,7 +73,10 @@ async function getRules() {
   console.log(global.relation)
 }
 
-function processIf(data){
+function processIf(id,data){
+  if(!data){
+    return '';
+  }
   if(data.and){
     var conditions=data.and;
     var str='';
@@ -79,6 +85,13 @@ function processIf(data){
       var cond=conditions[i];
       for(var key in cond){
         var device = key.split('.');
+        if (global.relation.get(device[0]) == null) {
+          global.relation.set(device[0], [id]);
+        } else {
+          var rel = global.relation.get(device[0]);
+          if (rel.indexOf(id) == -1)
+            global.relation.get(device[0]).push(id);
+        }
         result=result+'devices['+device[0]+'].'+device[1];
         var op=cond[key];
         for(var key2 in op){
@@ -156,6 +169,9 @@ function processIf(data){
 }
 
 function processThen(data){
+  if(!data){
+    return ''
+  }
   var result=[];
   for(var i =0;i<data.length;i++){
     var action=data[i];
@@ -198,6 +214,38 @@ var datathen=[
   {"2.running":1}
 ]
 
-console.log(processIf(dataif))
-console.log(processThen(datathen));
+function stringToJson(data){
+  if(!data){
+    console.log("empty input");
+    return;
+  }
+  var result = [];
+  for(var i =0;i<data.length;i++){
+    var obj={};
+    obj.id=data[i].id;
+    obj.name=data[i].name;
+    obj.rif=JSON.parse(data[i].rif);
+    obj.rthen =JSON.parse(data[i].rthen);
+    result.push(obj)
+  }
+  return result;
+}
+
+function constructRules(){
+  var getrules = db.read("select * from rules");
+  getrules.then(data=>{
+    var rules = stringToJson(data);
+    for (var i = 0; i < rules.length; i++) {
+      var rif = processIf(rules[i].id,rules[i].rif);
+      var rthen = processThen(rules[i].rthen);
+      var newRule = new Function('devices', `if(${rif}) console.log(${rthen})`);
+      global.policy[rules[i].id] = newRule;
+    }
+  },err=>{
+    console.log('read rules error')
+  });
+
+}
+
+//constructRules();
 module.exports = getRules;
