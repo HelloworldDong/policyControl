@@ -20,21 +20,23 @@ module.exports = {
 	 * Return a Promise object
 	 * If there is an error, it will reject it, or it will resolve the result.
 	 */
-	read: function(sql, params){
-		return new Promise(function(resolve, reject){
-			pool.getConnection(function(err, con){
-				if(err){
+	read: function (sql, params) {
+		return new Promise(function (resolve, reject) {
+			pool.getConnection(function (err, con) {
+				if (err) {
+					// console.log('11111')
 					con.release();
 					reject(err);
-				}else{
-					con.query(sql,params, function(err, results, fields){
-						if(err){
+				} else {
+					con.query(sql, params, function (err, results, fields) {
+						if (err) {
+							console.log('22222')
 							con.release();
 							reject(err);
-						}else{
+						} else {
+							console.log('33333')
 							con.release();
 							resolve(results);
-							//console.log(fields);
 						}
 					});
 				}
@@ -54,19 +56,21 @@ module.exports = {
 	 * 
 	 * The result/error message will be passed by the callback function.
 	 */
-	write: function(sql, params, cb){
-		pool.getConnection(function(err, con){
-			if(err){
+	write: function (sql, params, cb) {
+		pool.getConnection(function (err, con) {
+			if (err) {
+				console.log('4444')
 				con.release();
 				cb(err);
-			}else{
-				con.query(sql, params, function(err, results){
-					if(err){
+			} else {
+				con.query(sql, params, function (err, results) {
+					if (err) {
+						console.log('55555')
 						con.release();
 						cb(err);
-					}else{
+					} else {
 						con.release();
-						cb(err,results);
+						cb(err, results);
 					}
 				});
 			}

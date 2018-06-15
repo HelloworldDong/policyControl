@@ -24,7 +24,7 @@
     </div>
     <div class="body">
         <div class="body-head">
-            <input id="search_name" placeholder="   搜索策略名称">
+            <input id="search_name" placeholder="   搜索策略名称---按下Enter">
             </input>
             <i class="icon-search">
             </i>
@@ -45,7 +45,7 @@
             </table>
         </div>
         <div id="well-bottom" class="well well-dataTable">
-            <div id="strategic_foot" style="margin-top:10px;margin:0 auto;width:200px;height:30px;line-height: 30px;">
+            <div id="strategic_foot">
                 <span id="first" class="gray">
                     <i class="icon-left-arrow2"></i>
                 </span>
@@ -56,13 +56,13 @@
                     <span id="one_num">1</span>
                 </span>
                 <span>
-                    <span id="two_num">/999</span>
+                    <span id="two_num">/1</span>
                 </span>
                 <span id="right" class="black">
-                    <i class="black icon-right-arrow"></i>
+                    <i class="icon-right-arrow"></i>
                 </span>
                 <span id="last" class="black">
-                    <i class="black icon-right-arrow2"></i>
+                    <i class="icon-right-arrow2"></i>
                 </span>
             </div>
         </div>
@@ -117,17 +117,17 @@
                     <span class="fright mleft">符合所有条件</span>
                     <span class="fright mleft-10">
                         {{#if cond_type_and}}
-                            <input type="radio" name="radio" checked="checked" style="margin:0;" value="if_and">
+                            <input class='if_and' type="radio" name="radio" checked="checked" style="margin:0;" value="if_and">
                         {{else}}
-                            <input type="radio" name="radio" style="margin:0;" value="if_and">
+                            <input class='if_and' type="radio" name="radio" style="margin:0;" value="if_and">
                         {{/if}}
                     </span>
                     <span class="fright mleft">符合任一条件</span>
                     <span class="fright">
                         {{#if cond_type_or}}
-                            <input type="radio" name="radio" checked="checked" style="margin:0;" value="if_or">
+                            <input class='if_or' type="radio" name="radio" checked="checked" style="margin:0;" value="if_or">
                         {{else}}
-                            <input type="radio" name="radio" style="margin:0;" value="if_or">
+                            <input class='if_or' type="radio" name="radio" style="margin:0;" value="if_or">
                         {{/if}}
                     </span>
                 </span>
@@ -165,8 +165,11 @@
                         </tr>
                     </thead>
                     <tbody>
+                        
+                    <!-- {id: "777788888", name: "two", rif: {…}, rthen: Array(3), cond_type_and: "and"} -->
+                    <!-- {id: "1234567", name: "one", rif: {…}, rthen: Array(3), cond_type_or: "or"} -->
                     {{#if cond_type_and}}
-                        {{#each this.rule_if.and}}
+                        {{#each this.rif.and}}
                             <tr>
                                 <td>{{number}}</td>
                                 <td>{{iftype conditions}}</td>
@@ -179,7 +182,7 @@
                             </tr>
                         {{/each}}
                     {{else}}
-                        {{#each this.rule_if.or}}
+                        {{#each this.rif.or}}
                             <tr>
                                 <td>{{number}}</td>
                                 <td>{{iftype conditions}}</td>
@@ -246,7 +249,7 @@
             <div>
                 <div class="">
                     <span class="btn-gray" data-dismiss="modal">取消</span>
-                    <span id="sure_del" class="btn-blue">确认</span>
+                    <span id="sure_del"   data-dismiss="modal" class="btn-blue">确认</span>
                 </div>
             </div>
         </div>
