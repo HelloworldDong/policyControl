@@ -184,18 +184,25 @@ thead th{
     right: 15px;
 }
 #list .icon-trash{
+    position: absolute;
+    left: 2px;
+    top: -1px;
     margin: 0;
 }
 #list .icon-pencil-square-o{
     color: #4A5064;
+    position: absolute;
+    top:-1px;
 }
 #list tbody{
     color: #4A5064;
 }
 #list tbody .list-edit{
+    position: relative;
     cursor: pointer;
 }
 #list tbody .list-delete{
+    position: relative;
     cursor: pointer;
     color:rgb(235,81,89);
     margin-left: 10px;
