@@ -369,8 +369,12 @@
                     }
                 },
                 error: function (data) {
-                    console.log('更新的err---返回值-----', data)
-                    console.log('保存失败！')
+                    if (data.status == '200') {
+                        console.log('保存成功！')
+                        location.reload();
+                    } else {
+                        console.log('保存失败！')
+                    }
                 }
             })
         })
