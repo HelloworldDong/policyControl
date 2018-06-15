@@ -31,22 +31,21 @@ class rule {
     return this.rthen;
   }
 
-  save(callback){
-    db.write('insert into rules(name,rif,rthen) values(?,?,?)',[this.name,this.rif,this.rthen],callback);
+  save(callback) {
+    db.write('insert into rules(name,rif,rthen) values(?,?,?)', [this.name, this.rif, this.rthen], callback);
   }
 
-  update(cb){
-    db.write(`update rules set name = ?,rif = ?, rthen = ? where id = ?`, [this.name,this.rif, this.rthen, this.id], cb);
+  update(cb) {
+    db.write(`update rules set name = ?,rif = ?, rthen = ? where id = ?`, [this.name, this.rif, this.rthen, this.id], cb);
   }
- 
-  delete(cb){
+
+  delete(cb) {
     db.write(`delete from rules where id = ?`, [this.id], cb);
   }
-  toJSON(){
-    this.rif=JSON.parse(this.rif);
-    this.rthen=JSON.parse(this.rthen);
+  toJSON() {
+    this.rif = JSON.parse(this.rif);
+    this.rthen = JSON.parse(this.rthen);
   }
-
 }
 
-module.exports = rule ;
+module.exports = rule;

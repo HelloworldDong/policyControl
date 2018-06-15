@@ -132,7 +132,7 @@ thead th{
     position: absolute;
     color: red;
     font-size: 12px;
-    top:50px;
+    top:49px;
     left: 113px;
 }
 .modal-body label{
@@ -236,7 +236,6 @@ thead th{
     padding-top: 20px;
     /* border-top:0;
     border:0; */
-    
  } 
 #well-bottom #strategic_foot>span{
     display: inline-block;
@@ -247,25 +246,24 @@ thead th{
     text-align: center;
     border-radius: 3px;
     margin-left: 4px;
-    color:rgb(185,186,187);
+    /* color:rgb(185,186,187); */
     position: relative;
 }
 #well-bottom #strategic_foot>span:nth-child(3){
     width: 30px;
     color:#fff;
     background-color: rgb(70, 173, 247);
-    
+    cursor: default;
 }
-#well-bottom #strategic_foot>span:nth-child(4){
+ #well-bottom #strategic_foot>span:nth-child(4){
     width: 30px;
     border: none;
-    color:rgb(138,139,140);
     margin-left: 0;
-    
+    cursor: default;
 }
 #well-bottom  span i{
   position: absolute;
-  left: 3px;
+  left: 6px;
   top: 2px;
 }
 #well-bottom  span span{
@@ -277,3 +275,11 @@ thead th{
     left:0px;
     top: -5px;
   }
+  /* 分页按钮不可以点击*/
+.gray{ 
+    color:rgb(185,186,187);
+}
+/* 分页按钮可以点击 */
+.black{
+    color:#333;
+}
