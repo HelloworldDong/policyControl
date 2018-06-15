@@ -200,7 +200,7 @@
             }
             e_date = [e_date]
             var edit_date = edit_template(e_date);
-            console.log('yyyyy---编辑的数据', e_date)
+            // console.log('yyyyy---编辑的数据', e_date)
             $("#edit_body").html(edit_date);
         })
         .on('click', '#add_strategic', function (e) { // 列表里新增策略
@@ -232,12 +232,12 @@
                     console.log('result', result)
                 },
                 error: function (result) {
-                    console.log('error-result', result)
-                    if (result.status == '500') {
-                        console.log('有重复')
+                    console.log('error-result', result.status)
+                    if (result.status == '400') {
+                        alert('策略名称不能重复！')
                     } else {
+                        console.log('没有重复')
                         location.reload();
-
                     }
                 }
             })
@@ -434,9 +434,9 @@
             delete post_date["name"]
             console.log('确认保存的----post_date', post_date)
             $.ajax({
-                url: 'api/rules/'+edit_id,
+                url: 'api/rules/' + edit_id,
                 type: 'PUT',
-                data: post_date,
+                data: JSON.stringify(post_date),
                 success: function (data) {
                     console.log('更新的返回值-----', data)
                     if (result.statusCode == '200') {
@@ -444,7 +444,7 @@
                     }
                 },
                 error: function (data) {
-                    console.log('error-data---', data)
+                    // console.log('error-data---', data)
                     alert('保存失败！')
                 }
             })
