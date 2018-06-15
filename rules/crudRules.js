@@ -154,7 +154,7 @@ router.put('/:id', function (req, res) {
   data.name = data.policy_name;
 
   console.log('更新的数据data', data)
-  var arule = new Rule(Number(data.id), data.name, data.rif==null?null:JSON.stringify(data.rif), data.rthen==null?null:JSON.stringify(data.rthen));
+  var arule = new Rule(Number(req.params.edit_id), data.name, data.rif==null?null:JSON.stringify(data.rif), data.rthen==null?null:JSON.stringify(data.rthen));
   arule.update((err, result) => {
     if (err) {
       console.log('err--------', err)

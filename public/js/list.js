@@ -224,13 +224,27 @@
             var post_data = {
                 policy_name: $('#strategic_name').val()
             }
-            console.log('111111')
-            $.post('api/rules/', post_data, function (data) {//查重还有创建
-                console.log('创建-策略---', data)
-            })
-            location.reload();
-            console.log('222222')
+            $.ajax({
+                url: 'api/rules/',
+                type: 'post',
+                data: post_data,
+                success: function (result) {
+                    console.log('result', result)
+                },
+                error: function (result) {
+                    console.log('error-result', result)
+                    if (result.status == '500') {
+                        console.log('有重复')
+                    } else {
+                        location.reload();
 
+                    }
+                }
+            })
+            // $.post('api/rules/', post_data, function (data) {//查重还有创建
+            //     console.log('创建-策略---', data)
+            // })
+            // location.reload();
         })
         .on('click', '.list-delete', function (e) { // 删除策略
             e.preventDefault();
@@ -420,7 +434,7 @@
             delete post_date["name"]
             console.log('确认保存的----post_date', post_date)
             $.ajax({
-                url: 'api/rules/:edit_id',
+                url: 'api/rules/'+edit_id,
                 type: 'PUT',
                 data: post_date,
                 success: function (data) {
