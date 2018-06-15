@@ -126,14 +126,9 @@ async function init() {
   global.policy = [];
   global.relation = new Map();
   global.states = [];
-  getRules();
   await getStates();
+  getRules();
   console.log(global.states);
-  setTimeout(()=>{
-    console.log(global.policy[1].toString());
-    console.log(global.relation);
-  },1000);
-
 }
 
 init()

@@ -1,9 +1,7 @@
 var db = require("../database/handleDB.js")
 var exe = require('./execute.js')
 
-global.policy = [];
-global.relation = new Map();
-global.states = {};
+
 
 /**
  * 
@@ -72,6 +70,7 @@ async function getRules() {
   console.log(global.policy);
   console.log(global.relation)
 }
+
 
 function processIf(id,data){
   if(!data){
@@ -248,11 +247,12 @@ function constructRules(){
       if(rif!=''){
         var fun=`if(${rif}) console.log(${rthen})`
         console.log(fun)
-        var newRule = new Function('devices', `if(${rif}) console.log("${rthen}")`);
-        global.policy[rules[i].id] = newRule;
+         new Function("devices",fun);
+        global.policy[rules[i].id] = rfun;
       }
-
     }
+    console.log(global.policy);
+    console.log(global.relation);
   },err=>{
     console.log('read rules error')
   });
