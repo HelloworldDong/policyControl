@@ -56,7 +56,7 @@
                             v.if_num = _.pluck(yp, keys)[0];
                         })
                     }
-                    x.rif =  JSON.parse(x.rif);
+                    x.rif = JSON.parse(x.rif);
                     if (x && x.rif && x.rif.and) {
                         console.log('111111111111111')
                         x.cond_type_and = 'and';
@@ -256,12 +256,20 @@
                         post_date.rif = {};
                         post_date.rif.and = [];
                     }
+                    if (_.isString(post_date.rif)) {//是string类型才转换，如果不是string类型。而进行转换的话会报错
+                        post_date.rif = JSON.parse(post_date.rif);
+                    }
                     post_date.rif.and.push(condions_obj);
                 } else {//符合任何一个条件 if_or //因为新建的策略是没有这些默认值的，所以这里要初始化
+                    console.log('333333')
+
                     if (!post_date.rif) {
                         console.log('!post_date.rif')
                         post_date.rif = {};
                         post_date.rif.or = [];
+                    }
+                    if (_.isString(post_date.rif)) {//是string类型才转换，如果不是string类型。而进行转换的话会报错
+                        post_date.rif = JSON.parse(post_date.rif);
                     }
                     post_date.rif.or.push(condions_obj);
                 }
@@ -288,6 +296,9 @@
                 action_obj[number + '.' + select] = lastno;
                 if (!post_date.rthen) {//新建的策略是没有这个值的，所以需要初始化//////////////////////////
                     post_date.rthen = [];
+                }
+                if (_.isString(post_date.rthen)) {
+                    post_date.rthen = JSON.parse(post_date.rthen);
                 }
                 post_date.rthen.push(action_obj);
             } else {
