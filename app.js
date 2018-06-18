@@ -10,7 +10,7 @@ var mqtt = require('mqtt');
 var rulesRouter = require('./rules/crudRules.js');
 var getRules = require('./rules/getRules.js');
 var getStates = require('./states/getStates.js');
-var processMsg = require('./processMsg');
+var handleMsg = require('./processMsg');
 
 
 // view engine setup
@@ -143,7 +143,8 @@ client.on('connect', function () {
 
 client.on('message', function (topic, message) {
   var msg = JSON.parse(message.toString());
-  processMsg(msg)
+  console.log('app.js msg',msg)
+  handleMsg(msg)
 });
 
 

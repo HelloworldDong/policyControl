@@ -56,7 +56,7 @@
                             v.if_num = _.pluck(yp, keys)[0];
                         })
                     }
-                    x.rif = JSON.parse(x.rif);
+                    x.rif = x.rif==null?null:JSON.parse(x.rif);
                     if (x && x.rif && x.rif.and) {
                         console.log('111111111111111')
                         x.cond_type_and = 'and';
@@ -68,7 +68,7 @@
                             var ypp = [_.pluck(yp, keys)[0]]
                             var final_if_num = _.pluck(ypp, _.keys(_.pluck(yp, keys)[0])[0])[0];
                             y.if_type = _.keys(_.pluck(yp, keys)[0])[0];
-                            if (final_if_num.length) {//这种情况就是在值之间
+                            if (y.if_type=='bt') {//这种情况就是在值之间
                                 y.start_if_num = final_if_num[0];
                                 y.if_num = final_if_num[1];
                             } else {
@@ -86,7 +86,9 @@
                             var ypp = [_.pluck(yp, keys)[0]]
                             var final_if_num = _.pluck(ypp, _.keys(_.pluck(yp, keys)[0])[0])[0];
                             y.if_type = _.keys(_.pluck(yp, keys)[0])[0];
-                            if (final_if_num.length) {//这种情况就是在值之间
+                            console.log("****if type******",y.if_type)
+                            console.log("*****final if num**********",typeof(final_if_num))
+                            if (y.if_type=='bt') {//这种情况就是在值之间
                                 y.start_if_num = final_if_num[0];
                                 y.if_num = final_if_num[1];
                             } else {
@@ -366,11 +368,13 @@
                     console.log('更新的正确返回值-----', data)
                     if (result.statusCode == '200') {
                         console.log('保存成功！')
+                        window.location.reload()
                     }
                 },
                 error: function (data) {
                     console.log('更新的err---返回值-----', data)
                     console.log('保存失败！')
+                    window.location.reload()
                 }
             })
         })

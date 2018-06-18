@@ -84,14 +84,15 @@ function processIf(id,data){
       var cond=conditions[i];
       for(var key in cond){
         var device = key.split('.');
-        if (global.relation.get(device[0]) == null) {
-          global.relation.set(device[0], [id]);
+        var devID = Number(device[0]);
+        if (global.relation.get(devID == null)) {
+          global.relation.set(devID, [id]);
         } else {
-          var rel = global.relation.get(device[0]);
+          var rel = global.relation.get(devID);
           if (rel.indexOf(id) == -1)
-            global.relation.get(device[0]).push(id);
+            global.relation.get(devID).push(id);
         }
-        result=result+'devices['+device[0]+'].'+device[1];
+        result=result+'devices['+devID+'].'+device[1];
         var op=cond[key];
         for(var key2 in op){
           switch(key2){
@@ -119,7 +120,7 @@ function processIf(id,data){
         str=result;
       }
       else{
-        str=str+"&&"+result;
+        str=str+'&&'+result;
       }
     }
     return str;
@@ -132,14 +133,15 @@ function processIf(id,data){
       var cond=conditions[i];
       for(var key in cond){
         var device = key.split('.');
-        if (global.relation.get(device[0]) == null) {
-          global.relation.set(device[0], [id]);
+        var devID = Number(device[0]);
+        if (global.relation.get(devID) == null) {
+          global.relation.set(devID, [id]);
         } else {
-          var rel = global.relation.get(device[0]);
+          var rel = global.relation.get(devID);
           if (rel.indexOf(id) == -1)
-            global.relation.get(device[0]).push(id);
+            global.relation.get(devID).push(id);
         }
-        result=result+'devices['+device[0]+'].'+device[1];
+        result=result+'devices['+devID+'].'+device[1];
         var op=cond[key];
         for(var key2 in op){
           switch(key2){
@@ -167,7 +169,7 @@ function processIf(id,data){
         str=result;
       }
       else{
-        str=str+"||"+result;
+        str=str+'||'+result;
       }
     }
     return str;
@@ -230,8 +232,8 @@ function stringToJson(data){
     var obj={};
     obj.id=data[i].id;
     obj.name=data[i].name;
-    obj.rif=JSON.parse(data[i].rif);
-    obj.rthen =JSON.parse(data[i].rthen);
+    obj.rif=data[i].rif==null?null:JSON.parse(data[i].rif);
+    obj.rthen =data[i].rthen==null?null:JSON.parse(data[i].rthen);
     result.push(obj)
   }
   return result;
@@ -241,17 +243,18 @@ function constructRules(){
   var getrules = db.read("select * from rules");
   getrules.then(data=>{
     var rules = stringToJson(data);
+    console.log(rules)
     for (var i = 0; i < rules.length; i++) {
       var rif = processIf(rules[i].id,rules[i].rif);
       var rthen = processThen(rules[i].rthen);
       if(rif!=''){
-        var fun=`if(${rif}) console.log(${rthen})`
+        var fun='if('+rif+') console.log("'+rthen+'");'
         console.log(fun)
-         new Function("devices",fun);
+        var rfun = new Function('devices',fun);
         global.policy[rules[i].id] = rfun;
       }
     }
-    console.log(global.policy);
+    console.log(global.policy.toString());
     console.log(global.relation);
   },err=>{
     console.log('read rules error')

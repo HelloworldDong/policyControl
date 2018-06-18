@@ -3,7 +3,7 @@ var getStates = require('./states/getStates');
 var exe = require('./rules/execute');
 function processMsg(msg){
   console.log(msg);
-  db.write(`update states set light =?, online = ? where id = ? and devID = ?`,[msg.light,msg.online,msg.id,msg.devID],
+  db.write(`update states set level =?, running = ? where id = ? and devID = ?`,[msg.light,msg.online,msg.id,msg.devID],
     async function(results){
       console.log(results);
       var relatedRules = global.relation.get(msg.devID);
@@ -31,5 +31,18 @@ function handleConflict(rules){
   return Array.from(s);
 }
 
+function handleMsg(data){
+  global.states[data.devID]=data;
+  var relatedRules = global.relation.get(data.devID);
+  if(!relatedRules) return;
 
-module.exports = processMsg;
+  console.log(relatedRules)
+  for(var i=0;i<relatedRules.length;i++){
+    var index = relatedRules[i];
+    global.policy[index](global.states);
+  }
+}
+
+
+
+module.exports = handleMsg;
