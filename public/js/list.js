@@ -79,6 +79,7 @@
                         console.log('222222222222')
                         x.cond_type_or = 'or';
                         _.each(x.rif.or, function (y) {
+                            // console.log('yyyyy',y)
                             var keys = _.keys(y)[0];
                             y.number = _.keys(y)[0].split('.')[0];
                             y.conditions = _.keys(y)[0].split('.')[1];
@@ -86,8 +87,8 @@
                             var ypp = [_.pluck(yp, keys)[0]]
                             var final_if_num = _.pluck(ypp, _.keys(_.pluck(yp, keys)[0])[0])[0];
                             y.if_type = _.keys(_.pluck(yp, keys)[0])[0];
-                            console.log("****if type******",y.if_type)
-                            console.log("*****final if num**********",typeof(final_if_num))
+                            // console.log(' y.if_type', y.if_type)
+                            // console.log('final_if_num',final_if_num)
                             if (y.if_type=='bt') {//这种情况就是在值之间
                                 y.start_if_num = final_if_num[0];
                                 y.if_num = final_if_num[1];
@@ -130,6 +131,7 @@
                 condition_type = 'if_or';
                 e_date.cond_type_or = "or"//默认初始值是符合任一条件
             }
+            console.log('e_date---',e_date)
             e_date = [e_date]
             var edit_date = edit_template(e_date);//yyy
             $("#edit_body").html(edit_date);
@@ -241,6 +243,9 @@
             if ($('.condions-if').val() == 'bt') {//如果选择了between的逻辑
                 condions_obj[number + '.' + select][cif] = [firstno, lastno]
                 if ($('.condions-number').val() && $('.condions-firstno').val() && $('.condions-lastno')) {
+                    if (_.isString(post_date.rif)) {//是string类型才转换，如果不是string类型。而进行转换的话会报错
+                        post_date.rif = JSON.parse(post_date.rif);
+                    }
                     if (condition_type == 'if_and') {//符合所有条件
                         post_date.rif.and.push(condions_obj);
                     } else {//符合任何一个条件 if_or
@@ -325,6 +330,11 @@
         })
         .on('click', '.condions-del', function (e) {//删除条件
             var del_num = $(this).data('num');//每个垃圾桶的序号
+            console.log('del_num---', del_num)
+            console.log('删除条件post_date---', post_date)
+            if(_.isString(post_date.rif)){
+                post_date.rif = JSON.parse(post_date.rif);
+            }
             if (condition_type == 'if_and') {//符合所有条件
                 post_date.rif.and = _.without(post_date.rif.and, post_date.rif.and[del_num]);
             } else {//符合任何一个条件 if_or
@@ -372,9 +382,12 @@
                     }
                 },
                 error: function (data) {
-                    console.log('更新的err---返回值-----', data)
-                    console.log('保存失败！')
-                    window.location.reload()
+                    if (data.status == '200') {
+                        alert('保存成功！')
+                        location.reload();
+                    } else {
+                        alert('保存失败！')
+                    }
                 }
             })
         })
