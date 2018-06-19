@@ -131,7 +131,7 @@ async function init() {
   console.log(global.states);
 }
 
-//init()
+init()
 
 var client = mqtt.connect("mqtt://localhost:8000");
 
@@ -146,9 +146,3 @@ client.on('message', function (topic, message) {
   console.log('app.js msg',msg)
   handleMsg(msg)
 });
-
-
-
-
-
-

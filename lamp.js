@@ -11,13 +11,11 @@ client.on('connect', function () {
     lamp.id= Math.floor(Math.random()*100);
     lamp.devID=  IDlist[Math.round(Math.random()*(IDlist.length-1))];
     lamp.level = Math.floor(Math.random()*100);
-    lamp.running= Math.floor(Math.random());
+    lamp.running= Math.round(Math.random());
     lamp.wind= Math.floor(Math.random()*50);
     lamp.temp= Math.floor(Math.random()*40);
     lamp.air= Math.floor(Math.random()*20);
-    lamp.time = "2018-04-28 19:39:51";
+    lamp.time = "2018-04-28 19:40:00";
     client.publish('test',JSON.stringify(lamp),{qos:1,retain:'ture'});
-  },2000);
+  },5000);
 })
-
-

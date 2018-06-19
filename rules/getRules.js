@@ -59,7 +59,6 @@ var parseThen = function (param) {
 
 async function getRules() {
   var rules = await db.read("select * from rules");
-  console.log(rules)
   for (var i = 0; i < rules.length; i++) {
     var rif = parseIf(rules[i].id, rules[i].rif);
     var rthen = parseThen(rules[i].rthen);
@@ -85,7 +84,7 @@ function processIf(id,data){
       for(var key in cond){
         var device = key.split('.');
         var devID = Number(device[0]);
-        if (global.relation.get(devID == null)) {
+        if (global.relation.get(devID) == null) {
           global.relation.set(devID, [id]);
         } else {
           var rel = global.relation.get(devID);
@@ -103,7 +102,7 @@ function processIf(id,data){
               result+='<';
               break;
             case 'eq':
-              result+='=';
+              result+='==';
               break;
             case 'gte':
               result+='>=';
@@ -152,7 +151,7 @@ function processIf(id,data){
               result+='<';
               break;
             case 'eq':
-              result+='=';
+              result+='==';
               break;
             case 'gte':
               result+='>=';
@@ -249,7 +248,6 @@ function constructRules(){
       var rthen = processThen(rules[i].rthen);
       if(rif!=''){
         var fun='if('+rif+') console.log("'+rthen+'");'
-        console.log(fun)
         var rfun = new Function('devices',fun);
         global.policy[rules[i].id] = rfun;
       }
